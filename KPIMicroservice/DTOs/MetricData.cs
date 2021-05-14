@@ -16,7 +16,6 @@ namespace KPIMicroservice.Models
         [Required]
         public string IdealDuration { get; set; }
 
-        [Required]
         public int TotalProductCount { get; set; }
     }
 }

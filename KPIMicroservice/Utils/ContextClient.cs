@@ -77,14 +77,13 @@ namespace KPIMicroservice.Utils
 
         public async Task UpdateStationMeta(string stationId, Station meta)
         {
-            var id = GetFullId(EntityType.Station, stationId);
-
+            meta.Type = null;
             var json = JsonSerializer.Serialize(meta, new JsonSerializerOptions
             {
                 IgnoreNullValues = true
             });
             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync($"{_entityUrl}/{id}/attrs", content);
+            var response = await _client.PostAsync($"{_entityUrl}/{stationId}/attrs", content);
             await response.Content.ReadAsStringAsync();
         }
 

@@ -20,7 +20,7 @@ namespace KPIMicroservice.Models.OEE
 
         [JsonPropertyName("totalProductCount")]
         [JsonConverter(typeof(NumberSerializer))]
-        public double TotalProductCount { get; set; }
+        public double TotalProductCount { get; set; } = 0;
     }
 
     public class Station : StationMeta
