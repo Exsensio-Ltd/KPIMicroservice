@@ -58,7 +58,7 @@ namespace KPIMicroservice.Utils
             var productId = await TryAddProductAsync(product);
             var stationId = await TryAddStationAsync(station, productId, breakDuration, idealDuration, totalProductCount);
 
-            await UpdateStationMeta(stationId, new Station
+            await UpdateStationMeta(stationId, new StationMeta
             {
                 ProductionBreakDuration = breakDuration,
                 ProductionIdealDuration = idealDuration,
@@ -75,9 +75,12 @@ namespace KPIMicroservice.Utils
             await _client.PostAsync(_entityUrl, content);
         }
 
-        public async Task UpdateStationMeta(string stationId, Station meta)
+        public async Task UpdateStationMeta(string stationId, StationMeta meta)
         {
-            meta.Type = null;
+            var result = _stations.FirstOrDefault(s => s.Value.GetFullId() == stationId);
+            if (!meta.IsUpdated(result.Value))
+                return;
+
             var json = JsonSerializer.Serialize(meta, new JsonSerializerOptions
             {
                 IgnoreNullValues = true

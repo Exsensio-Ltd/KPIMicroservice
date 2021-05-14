@@ -21,6 +21,26 @@ namespace KPIMicroservice.Models.OEE
         [JsonPropertyName("totalProductCount")]
         [JsonConverter(typeof(NumberSerializer))]
         public double TotalProductCount { get; set; } = 0;
+
+        #region Methods
+
+        public bool IsUpdated(Station station)
+        {
+            if (station == null)
+            {
+                return false;
+            }
+
+            if ((!string.IsNullOrEmpty(station.ProductionBreakDuration) && ProductionBreakDuration != station.ProductionBreakDuration) ||
+                (!string.IsNullOrEmpty(station.ProductionIdealDuration) && ProductionIdealDuration != station.ProductionIdealDuration) ||
+                (TotalProductCount != station.TotalProductCount))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
     }
 
     public class Station : StationMeta

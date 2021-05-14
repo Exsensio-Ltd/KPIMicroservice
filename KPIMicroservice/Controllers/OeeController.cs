@@ -118,12 +118,11 @@ namespace KPIMicroservice.Controllers
         {
             try
             {
-                var meta = new Station
+                var meta = new StationMeta
                 {
                     ProductionBreakDuration = data.ProductionBreakDuration,
                     ProductionIdealDuration = data.ProductionIdealDuration,
                     TotalProductCount = data.TotalProductCount,
-                    Type = null
                 };
                 
                 await _client.UpdateStationMeta(id, meta);
