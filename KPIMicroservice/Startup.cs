@@ -53,6 +53,8 @@ namespace KPIMicroservice
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KPI Microservice v1"));
             }
 
+            app.UseHttpsRedirection();
+            
             app.UseRouting();
 
             app.UseCors("ServicePolicy");
