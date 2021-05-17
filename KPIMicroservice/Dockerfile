@@ -1,8 +1,9 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
-ENV CONTEXT_URL http://172.17.0.1:1026
-ENV ASPNETCORE_URLS http://*:80
+ENV CONTEXT_URL="http://172.17.0.1:1026"
+ENV ASPNETCORE_URLS="https://+:443;http://+:80"
 EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
