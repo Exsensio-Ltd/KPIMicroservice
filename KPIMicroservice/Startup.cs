@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using KPIMicroservice.Utils;
 using KPIMicroservice.Utils.Calculator;
 using System;
 using System.IO;
@@ -32,6 +33,7 @@ namespace KPIMicroservice
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            services.AddScoped<IContextClient, ContextClient>();
             services.AddSingleton(typeof(CalculatorContext));
             services.AddCors(o => o.AddPolicy("ServicePolicy", builder =>
             {

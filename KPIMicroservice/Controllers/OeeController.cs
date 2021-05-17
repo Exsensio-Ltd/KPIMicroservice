@@ -18,18 +18,17 @@ namespace KPIMicroservice.Controllers
     [Produces("application/json")]
     public class OeeController : ControllerBase
     {
-        private readonly ContextClient _client;
+        private readonly IContextClient _client;
 
-        public OeeController()
+        public OeeController(IContextClient client)
         {
-            var contextUrl = Environment.GetEnvironmentVariable("CONTEXT_URL");
-            _client = ContextClient.GetInstance(contextUrl);
+            _client = client;
         }
 
         /// <summary>
         /// Add OEE metric to the context
         /// </summary>
-        /// <param name="metric"></param>
+        /// <param name="metric">Metric Data</param>
         /// <response code="200">Successfully added metric</response>
         /// <response code="500">Error thrown by context broker</response>
         /// <returns></returns>

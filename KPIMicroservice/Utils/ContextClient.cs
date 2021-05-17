@@ -11,49 +11,41 @@ using System.Threading.Tasks;
 
 namespace KPIMicroservice.Utils
 {
-    public class ContextClient
+    public class ContextClient : IContextClient, IDisposable
     {
         #region Fields
 
-        public const string TimeFormat = @"hh\:mm\:ss\.fff";
+        private static ConcurrentDictionary<string, Product> Products = new();
+        private static ConcurrentDictionary<string, Station> Stations = new();
         private readonly string _entityUrl = "v2/entities";
-        private readonly ConcurrentDictionary<string, Product> _products = new();
-        private readonly ConcurrentDictionary<string, Station> _stations = new();
         private readonly HttpClientHandler _httpHandler = new();
-        private readonly HttpClient _client;
-        private static ContextClient _instance = null;
-        private static string Url = "";
+        private HttpClient _client;
+        private bool disposed = false;
 
         #endregion
 
         #region Constructors
 
-        private ContextClient(string baseUrl)
+        public ContextClient()
         {
-            _client = new HttpClient(_httpHandler, true)
-            {
-                BaseAddress = new Uri(baseUrl)
-            };
-
-            Task.WaitAll(LoadProductsAsync(), LoadStationsAsync());
+            Init();
         }
 
         #endregion
 
         #region Methods
 
-        public static ContextClient GetInstance(string url = "http://localhost:1026")
+        public virtual void Init()
         {
-            if (_instance == null || Url != url)
+            var baseUrl = Environment.GetEnvironmentVariable("CONTEXT_URL");
+            _client = new HttpClient(_httpHandler, true)
             {
-                Url = url;
-                _instance = new ContextClient(url);
-            }
-
-            return _instance;
+                BaseAddress = new Uri(baseUrl)
+            };
+            Task.WaitAll(LoadProductsAsync(), LoadStationsAsync());
         }
 
-        public async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, int totalProductCount = 0)
+        public virtual async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, int totalProductCount = 0)
         {
             var productId = await TryAddProductAsync(product);
             var stationId = await TryAddStationAsync(station, productId, breakDuration, idealDuration, totalProductCount);
@@ -75,9 +67,9 @@ namespace KPIMicroservice.Utils
             await _client.PostAsync(_entityUrl, content);
         }
 
-        public async Task UpdateStationMeta(string stationId, StationMeta meta)
+        public virtual async Task UpdateStationMeta(string stationId, StationMeta meta)
         {
-            var result = _stations.FirstOrDefault(s => s.Value.GetFullId() == stationId);
+            var result = Stations.FirstOrDefault(s => s.Value.GetFullId() == stationId);
             if (!meta.IsUpdated(result.Value))
                 return;
 
@@ -90,14 +82,14 @@ namespace KPIMicroservice.Utils
             await response.Content.ReadAsStringAsync();
         }
 
-        public IEnumerable<Product> GetProducts()
+        public virtual IEnumerable<Product> GetProducts()
         {
-            return _products.Select(p => new Product
+            return Products.Select(p => new Product
             {
                 Id = p.Value.Id,
                 Type = EntityType.Product,
                 Name = p.Value.Name,
-                Stations = _stations
+                Stations = Stations
                     .Where(s => s.Value.RefProduct == p.Value.GetFullId())
                     .Select(s => new Station
                     {
@@ -110,7 +102,7 @@ namespace KPIMicroservice.Utils
             }).ToList();
         }
 
-        public async Task<Station> GetEntitiesAsync(string stationId)
+        public virtual async Task<Station> GetEntitiesAsync(string stationId)
         {
             var id = GetFullId(EntityType.Station, stationId);
 
@@ -141,6 +133,26 @@ namespace KPIMicroservice.Utils
             return station;
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _client.Dispose();
+                }
+
+                _client = null;
+                disposed = true;
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -162,7 +174,7 @@ namespace KPIMicroservice.Utils
                 var entities = await response.Content.ReadAsObjectAsync<List<Product>>();
                 foreach (var entity in entities)
                 {
-                    _products.TryAdd(entity.Name, entity);
+                    Products.TryAdd(entity.Name, entity);
                 }
             }
             catch (HttpRequestException)
@@ -186,7 +198,7 @@ namespace KPIMicroservice.Utils
                 var entities = await response.Content.ReadAsObjectAsync<List<Station>>();
                 foreach (var entity in entities)
                 {
-                    _stations.TryAdd(entity.Name, entity);
+                    Stations.TryAdd(entity.Name, entity);
                 }
             }
             catch (HttpRequestException)
@@ -205,7 +217,7 @@ namespace KPIMicroservice.Utils
 
         private async Task<string> TryAddStationAsync(string name, string productRef, string breakDuration, string idealDuration, int totalProductCount)
         {
-            var result = _stations.TryGetValue(name, out Station station);
+            var result = Stations.TryGetValue(name, out Station station);
             if (!result)
             {
                 station = new Station
@@ -217,7 +229,7 @@ namespace KPIMicroservice.Utils
                     TotalProductCount = totalProductCount,
                     RefProduct = productRef
                 };
-                _stations.TryAdd(name, station);
+                Stations.TryAdd(name, station);
 
                 var content = new StringContent(JsonSerializer.Serialize(station), System.Text.Encoding.UTF8, "application/json");
                 await _client.PostAsync(_entityUrl, content);
@@ -228,7 +240,7 @@ namespace KPIMicroservice.Utils
 
         private async Task<string> TryAddProductAsync(string name)
         {
-            var result = _products.TryGetValue(name, out Product product);
+            var result = Products.TryGetValue(name, out Product product);
             if (!result)
             {
                 product = new Product
@@ -236,7 +248,7 @@ namespace KPIMicroservice.Utils
                     Id = Guid.NewGuid().ToString(),
                     Name = name
                 };
-                _products.TryAdd(name, product);
+                Products.TryAdd(name, product);
 
                 var content = new StringContent(JsonSerializer.Serialize(product), System.Text.Encoding.UTF8, "application/json");
                 await _client.PostAsync(_entityUrl, content);

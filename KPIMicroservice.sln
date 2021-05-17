@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31025.218
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KPIMicroservice", "KPIMicroservice\KPIMicroservice.csproj", "{3B2A1F24-786B-4ADC-8290-5481AA1A5EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPIMicroserviceTest", "KPIMicroserviceTest\KPIMicroserviceTest.csproj", "{A723CC08-6036-4F96-BF29-F98C00FDF90B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KPIMicroservice.UnitTest", "KPIMicroservice.UnitTest\KPIMicroservice.UnitTest.csproj", "{A723CC08-6036-4F96-BF29-F98C00FDF90B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPIMicroservice.IntegrationTests", "KPIMicroservice.IntegrationTests\KPIMicroservice.IntegrationTests.csproj", "{B57E9A90-7DAB-4379-9EED-CDBE2E09F3E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A723CC08-6036-4F96-BF29-F98C00FDF90B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A723CC08-6036-4F96-BF29-F98C00FDF90B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A723CC08-6036-4F96-BF29-F98C00FDF90B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B57E9A90-7DAB-4379-9EED-CDBE2E09F3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B57E9A90-7DAB-4379-9EED-CDBE2E09F3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B57E9A90-7DAB-4379-9EED-CDBE2E09F3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B57E9A90-7DAB-4379-9EED-CDBE2E09F3E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
