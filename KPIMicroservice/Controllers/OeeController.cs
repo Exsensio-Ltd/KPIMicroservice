@@ -159,7 +159,7 @@ namespace KPIMicroservice.Controllers
             [FromQuery][Required] string station,
             [FromQuery][Required] int reportingPeriod,
             [FromQuery][Required] CalculationType type,
-            [FromServices] CalculatorContext calculator)
+            [FromServices] ICalculatorContext calculator)
         {
             try
             {

@@ -87,8 +87,6 @@ namespace KPIMicroservice.IntegrationTests
             var startupAssembly = typeof(TStartup).GetTypeInfo().Assembly;
             var contentRoot = GetProjectPath(relativeTargetProjectParentDir, startupAssembly);
 
-            Environment.SetEnvironmentVariable("CONTEXT_URL", "http://172.17.0.1:1026");
-
             Server = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Testing")
                 .ConfigureTestServices(InitializeServices)
@@ -96,8 +94,7 @@ namespace KPIMicroservice.IntegrationTests
                 .UseConfiguration(new ConfigurationBuilder()
                     .SetBasePath(contentRoot)
                     .AddJsonFile("appsettings.json")
-                    .Build()
-                )
+                    .Build())
                 .UseStartup<Startup>());
             Client = Server.CreateClient();
         }

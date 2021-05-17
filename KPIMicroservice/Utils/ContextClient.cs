@@ -15,8 +15,8 @@ namespace KPIMicroservice.Utils
     {
         #region Fields
 
-        private static ConcurrentDictionary<string, Product> Products = new();
-        private static ConcurrentDictionary<string, Station> Stations = new();
+        private static readonly ConcurrentDictionary<string, Product> Products = new();
+        private static readonly ConcurrentDictionary<string, Station> Stations = new();
         private readonly string _entityUrl = "v2/entities";
         private readonly HttpClientHandler _httpHandler = new();
         private HttpClient _client;

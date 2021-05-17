@@ -34,7 +34,7 @@ namespace KPIMicroservice
                 c.IncludeXmlComments(xmlPath);
             });
             services.AddScoped<IContextClient, ContextClient>();
-            services.AddSingleton(typeof(CalculatorContext));
+            services.AddSingleton<ICalculatorContext, CalculatorContext>();
             services.AddCors(o => o.AddPolicy("ServicePolicy", builder =>
             {
                 builder.AllowAnyOrigin()

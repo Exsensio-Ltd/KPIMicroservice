@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace KPIMicroservice.Utils.Calculator
 {
-    public class CalculatorContext
+    public class CalculatorContext : ICalculatorContext
     {
         private IOEECalculator _calculator;
 
