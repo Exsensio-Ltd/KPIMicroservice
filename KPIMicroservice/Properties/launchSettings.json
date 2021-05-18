@@ -38,7 +38,7 @@
       "environmentVariables": {
         "CONTEXT_URL": "http://172.17.0.1:1026",
         "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "44360"
+        "ASPNETCORE_HTTPS_PORT": "443"
       }
     }
   }
