@@ -30,16 +30,24 @@ namespace KPIMicroservice.Controllers
         /// </summary>
         /// <param name="metric">Metric Data</param>
         /// <response code="200">Successfully added metric</response>
+        /// <response code="400">Missing required body parameters</response>
         /// <response code="500">Error thrown by context broker</response>
         /// <returns></returns>
         [HttpPut("add")]
-        [ProducesResponseType(typeof(ResponseMessage), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseMessage), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessage))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseMessage))]
         public async Task<IActionResult> Add([FromBody][Required] MetricData metric)
         {
             try
             {
-                await _client.CreateEntityAsync(metric.ProductName, metric.StationName, metric.BreakDuration, metric.IdealDuration, metric.TotalProductCount);
+                await _client.CreateEntityAsync(
+                    metric.ProductName,
+                    metric.StationName,
+                    metric.ProductionBreakDuration,
+                    metric.ProductionIdealDuration,
+                    metric.TotalProductCount
+                );
 
                 return StatusCode(StatusCodes.Status201Created, new ResponseMessage
                 {
@@ -51,7 +59,7 @@ namespace KPIMicroservice.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessage
                 {
-                    Message = ae.InnerException.Message,
+                    Message = ae.InnerException?.Message,
                     HasError = true
                 });
             }
@@ -60,12 +68,12 @@ namespace KPIMicroservice.Controllers
         /// <summary>
         /// Fetch OEE data set by station Id
         /// </summary>
-        /// <response code="200">List of the products with the stations</response>
+        /// <response code="200">List of the stations</response>
         /// <response code="500">Error thrown by context broker</response>
-        /// <returns></returns>
+        /// <returns>List of stations</returns>
         [HttpGet("stations")]
-        [ProducesResponseType(typeof(ResponseMessage<IEnumerable<ProductDto>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseMessage), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessage<IEnumerable<ProductDto>>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseMessage))]
         public IActionResult StationsList()
         {
             try
@@ -74,11 +82,11 @@ namespace KPIMicroservice.Controllers
 
                 var products = result.Select(p => new ProductDto
                 {
-                    Id = p.Id,
+                    Id = p.GetFullId(),
                     Name = p.Name,
                     Stations = p.Stations.Select(s => new StationDto
                     {
-                        Id = s.Id,
+                        Id = s.GetFullId(),
                         Name = s.Name,
                         RefProduct = s.RefProduct
                     }).ToList()
@@ -94,7 +102,7 @@ namespace KPIMicroservice.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessage
                 {
-                    Message = ae.InnerException.Message,
+                    Message = ae.InnerException?.Message,
                     HasError = true
                 });
             }
@@ -103,17 +111,15 @@ namespace KPIMicroservice.Controllers
         /// <summary>
         /// Update station meta data
         /// </summary>
-        /// <param name="id">Station Id</param>
+        /// <param name="id" example="urn:ngsi-ld:Station:8b960a8e-ab44-40e6-aaed-8499cb428d18">Station entity Id</param>
         /// <param name="data">Meta data</param>
         /// <response code="200">List of the products with the stations</response>
         /// <response code="500">Error thrown by context broker</response>
         /// <returns></returns>
-        [HttpPost("station")]
-        [ProducesResponseType(typeof(ResponseMessage), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseMessage), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateStation(
-            [FromQuery][Required] string id,
-            [FromBody][Required] StationMeta data)
+        [HttpPost("station/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessage))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseMessage))]
+        public async Task<IActionResult> UpdateStation(string id, [FromBody] MetaData data)
         {
             try
             {
@@ -123,19 +129,20 @@ namespace KPIMicroservice.Controllers
                     ProductionIdealDuration = data.ProductionIdealDuration,
                     TotalProductCount = data.TotalProductCount,
                 };
-                
+
                 await _client.UpdateStationMeta(id, meta);
 
                 return Ok(new ResponseMessage
                 {
-                    Message = "Statin meta updated.",
+                    Message = "Station meta updated.",
                     HasError = false
                 });
-            } catch (AggregateException ae)
+            }
+            catch (AggregateException ae)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessage
                 {
-                    Message = ae.InnerException.Message,
+                    Message = ae.InnerException?.Message,
                     HasError = true
                 });
             }
@@ -144,29 +151,26 @@ namespace KPIMicroservice.Controllers
         /// <summary>
         /// Fetch and calculate OEE data set by station Id
         /// </summary>
-        /// <param name="station">Station Id (e.g. urn:ngsi-ld:Station:8b960a8e-ab44-40e6-aaed-8499cb428d18)</param>
-        /// <param name="reportingPeriod">Reporting perion in hours</param>
-        /// <param name="type">Calculation type (0 = Simple, 1 = Advanced). More details of [OEE](https://www.oee.com/calculating-oee.html)</param>
+        /// <param name="calculationData">More details of [OEE](https://www.oee.com/calculating-oee.html)</param>
         /// <param name="calculator"></param>
         /// <response code="200">Data set for selected station</response>
         /// <response code="400">Request error</response>
         /// <response code="500">Error thrown by context broker</response>
         /// <returns></returns>
         [HttpGet("calculate")]
-        [ProducesResponseType(typeof(ResponseMessage<IEnumerable<DataSet>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResponseMessage), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CalculateSimpleOEE(
-            [FromQuery][Required] string station,
-            [FromQuery][Required] int reportingPeriod,
-            [FromQuery][Required] CalculationType type,
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessage<IEnumerable<DataSet>>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseMessage))]
+        public async Task<IActionResult> CalculateOee(
+            [FromQuery] CalculationData calculationData,
             [FromServices] ICalculatorContext calculator)
         {
             try
             {
-                var stationEntities = await _client.GetEntitiesAsync(station);
+                var stationEntities = await _client.GetEntitiesAsync(calculationData.Id);
 
-                calculator.SetCalculator(type);
-                var dataSet = calculator.ExecuteCalculation(stationEntities, reportingPeriod);
+                calculator.SetCalculator(calculationData.Type);
+                var dataSet = calculator.ExecuteCalculation(stationEntities, calculationData.ReportingPeriod);
 
                 return Ok(new ResponseMessage<IEnumerable<DataSet>>
                 {
@@ -178,7 +182,7 @@ namespace KPIMicroservice.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseMessage
                 {
-                    Message = ae.InnerException.Message,
+                    Message = ae.InnerException?.Message,
                     HasError = true
                 });
             }

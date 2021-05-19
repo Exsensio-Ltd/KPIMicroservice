@@ -5,11 +5,11 @@ using Xunit;
 
 namespace KPIMicroservice.IntegrationTests
 {
-    public class OEETests : IClassFixture<TestFixture<Startup>>
+    public class OeeTests : IClassFixture<TestFixture<Startup>>
     {
         private readonly HttpClient _client;
 
-        public OEETests(TestFixture<Startup> fixture)
+        public OeeTests(TestFixture<Startup> fixture)
         {
             _client = fixture.Client;
         }
@@ -28,7 +28,7 @@ namespace KPIMicroservice.IntegrationTests
         }
 
         [Fact]
-        public async Task TestAddOEEMetricAsync()
+        public async Task TestAddOeeMetricAsync()
         {
             // Arrange
             var request = "/api/oee/add";
@@ -38,8 +38,8 @@ namespace KPIMicroservice.IntegrationTests
             {
                 ProductName = "Test Product",
                 StationName = "Test Station",
-                IdealDuration = "00:00:55.231",
-                BreakDuration = "00:00:01.442",
+                ProductionIdealDuration = "00:00:55.231",
+                ProductionBreakDuration = "00:00:01.442",
                 TotalProductCount = 1
             };
             var content = new StringContent(JsonSerializer.Serialize(entity), System.Text.Encoding.UTF8, "application/json");
@@ -53,12 +53,11 @@ namespace KPIMicroservice.IntegrationTests
         public async Task TestUpdateStationMetaAsync()
         {
             // Arrange
-            var request = "/api/oee/station?id=9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb";
+            var request = "/api/oee/station/9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb";
 
             // Act
             var entity = new
             {
-                Name = "Test Station",
                 ProductionIdealDuration = "00:00:55.122",
                 ProductionBreakDuration = "00:00:01.422",
                 TotalProductCount = 2
@@ -75,7 +74,7 @@ namespace KPIMicroservice.IntegrationTests
         public async Task TestCalculateAsync()
         {
             // Arrange
-            var request = "/api/oee/calculate?station=9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb&reportingPeriod=1&type=0";
+            var request = "/api/oee/calculate?id=9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb&reportingPeriod=1&type=0";
 
             // Act
             var response = await _client.GetAsync(request);

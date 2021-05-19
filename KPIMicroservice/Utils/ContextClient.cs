@@ -15,12 +15,12 @@ namespace KPIMicroservice.Utils
     {
         #region Fields
 
+        private const string EntityUrl = "v2/entities";
         private static readonly ConcurrentDictionary<string, Product> Products = new();
         private static readonly ConcurrentDictionary<string, Station> Stations = new();
-        private readonly string _entityUrl = "v2/entities";
         private readonly HttpClientHandler _httpHandler = new();
         private HttpClient _client;
-        private bool disposed = false;
+        private bool _disposed;
 
         #endregion
 
@@ -38,6 +38,11 @@ namespace KPIMicroservice.Utils
         public virtual void Init()
         {
             var baseUrl = Environment.GetEnvironmentVariable("CONTEXT_URL");
+            if (string.IsNullOrEmpty(baseUrl))
+            {
+                throw new Exception("Base URL is not present in environment");
+            }
+            
             _client = new HttpClient(_httpHandler, true)
             {
                 BaseAddress = new Uri(baseUrl)
@@ -57,14 +62,14 @@ namespace KPIMicroservice.Utils
                 TotalProductCount = totalProductCount
             });
 
-            var entity = new OEEMetric
+            var entity = new OeeMetric
             {
                 Id = Guid.NewGuid().ToString(),
                 RefStation = stationId,
             };
 
             var content = new StringContent(JsonSerializer.Serialize(entity), System.Text.Encoding.UTF8, "application/json");
-            await _client.PostAsync(_entityUrl, content);
+            await _client.PostAsync(EntityUrl, content);
         }
 
         public virtual async Task UpdateStationMeta(string stationId, StationMeta meta)
@@ -78,7 +83,7 @@ namespace KPIMicroservice.Utils
                 IgnoreNullValues = true
             });
             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync($"{_entityUrl}/{stationId}/attrs", content);
+            var response = await _client.PostAsync($"{EntityUrl}/{stationId}/attrs", content);
             await response.Content.ReadAsStringAsync();
         }
 
@@ -104,29 +109,27 @@ namespace KPIMicroservice.Utils
 
         public virtual async Task<Station> GetEntitiesAsync(string stationId)
         {
-            var id = GetFullId(EntityType.Station, stationId);
-
             var parametersStation = BuildParams(new Dictionary<string, string>
             {
                 { "options", "keyValues" },
                 { "type", EntityType.Station },
             });
 
-            var responseStation = await _client.GetAsync($"{_entityUrl}/{id}?{parametersStation}");
+            var responseStation = await _client.GetAsync($"{EntityUrl}/{stationId}?{parametersStation}");
             responseStation.EnsureSuccessStatusCode();
             var station = await responseStation.Content.ReadAsObjectAsync<Station>();
 
             var parametersMetric = BuildParams(new Dictionary<string, string>
             {
                 { "options", "keyValues" },
-                { "type", EntityType.OEEMetric },
+                { "type", EntityType.OeeMetric },
                 { "limit", "1000" },
-                { "refStation", id }
+                { "refStation", stationId }
             });
 
-            var responseMetric = await _client.GetAsync($"{_entityUrl}?{parametersMetric}");
+            var responseMetric = await _client.GetAsync($"{EntityUrl}?{parametersMetric}");
             responseMetric.EnsureSuccessStatusCode();
-            var metrics = await responseMetric.Content.ReadAsObjectAsync<IEnumerable<OEEMetric>>();
+            var metrics = await responseMetric.Content.ReadAsObjectAsync<IEnumerable<OeeMetric>>();
 
             station.Metrics = metrics;
 
@@ -141,7 +144,7 @@ namespace KPIMicroservice.Utils
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -149,7 +152,7 @@ namespace KPIMicroservice.Utils
                 }
 
                 _client = null;
-                disposed = true;
+                _disposed = true;
             }
         }
 
@@ -165,7 +168,7 @@ namespace KPIMicroservice.Utils
                 { "type", EntityType.Product },
             };
 
-            var url = $"{_entityUrl}?{BuildParams(parameters)}";
+            var url = $"{EntityUrl}?{BuildParams(parameters)}";
             var response = await _client.GetAsync(url);
 
             try
@@ -189,7 +192,7 @@ namespace KPIMicroservice.Utils
                 { "type", EntityType.Station },
             };
 
-            var url = $"{_entityUrl}?{BuildParams(parameters)}";
+            var url = $"{EntityUrl}?{BuildParams(parameters)}";
             var response = await _client.GetAsync(url);
 
             try
@@ -232,7 +235,7 @@ namespace KPIMicroservice.Utils
                 Stations.TryAdd(name, station);
 
                 var content = new StringContent(JsonSerializer.Serialize(station), System.Text.Encoding.UTF8, "application/json");
-                await _client.PostAsync(_entityUrl, content);
+                await _client.PostAsync(EntityUrl, content);
             }
 
             return station.GetFullId();
@@ -251,7 +254,7 @@ namespace KPIMicroservice.Utils
                 Products.TryAdd(name, product);
 
                 var content = new StringContent(JsonSerializer.Serialize(product), System.Text.Encoding.UTF8, "application/json");
-                await _client.PostAsync(_entityUrl, content);
+                await _client.PostAsync(EntityUrl, content);
             }
 
             return product.GetFullId();

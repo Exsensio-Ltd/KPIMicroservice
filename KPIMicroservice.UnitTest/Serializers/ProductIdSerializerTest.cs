@@ -3,7 +3,7 @@ using KPIMicroservice.Serializers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KPIMicroserviceTest.Serializers
+namespace KPIMicroservice.UnitTest.Serializers
 {
     class ProductIdEntity
     {
@@ -13,7 +13,7 @@ namespace KPIMicroserviceTest.Serializers
     }
 
     [TestClass]
-    public class ProductIdSerializerTest_Serialize
+    public class ProductIdSerializerTest
     {
         [TestMethod]
         [DataRow("9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", EntityType.Product)]
@@ -36,7 +36,7 @@ namespace KPIMicroserviceTest.Serializers
             var json = "{\"id\":\"urn:ngsi-ld:" + entityType + ":" + value + "\"}";
             var entity = JsonSerializer.Deserialize<ProductIdEntity>(json);
 
-            Assert.AreEqual(value, entity.Id);
+            Assert.AreEqual(value, entity?.Id);
         }
     }
 }

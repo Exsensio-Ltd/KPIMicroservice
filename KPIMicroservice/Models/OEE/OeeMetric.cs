@@ -4,16 +4,16 @@ using System.Text.Json.Serialization;
 
 namespace KPIMicroservice.Models.OEE
 {
-    public class OEEMetric
+    public class OeeMetric
     {
         #region Properties
 
         [JsonPropertyName("id")]
-        [JsonConverter(typeof(OEEMetricIdSerializer))]
+        [JsonConverter(typeof(OeeMetricIdSerializer))]
         public string Id { get; set; }
 
         [JsonPropertyName("type")]
-        public string Type { get; set; } = EntityType.OEEMetric;
+        public string Type { get; set; } = EntityType.OeeMetric;
 
         [JsonPropertyName("createdTime")]
         [JsonConverter(typeof(DateTimeSerializer))]
@@ -34,7 +34,7 @@ namespace KPIMicroservice.Models.OEE
 
         #region Methods
 
-        public string GetFullId() => $"urn:ngsi-ld:{EntityType.OEEMetric}:{Id}";
+        public string GetFullId() => $"urn:ngsi-ld:{EntityType.OeeMetric}:{Id}";
 
         #endregion
     }

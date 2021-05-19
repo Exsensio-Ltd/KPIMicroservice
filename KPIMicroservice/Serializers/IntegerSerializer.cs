@@ -8,11 +8,7 @@ namespace KPIMicroservice.Serializers
     {
         public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Null)
-            {
-                return 0;
-            }
-            return reader.GetInt32();
+            return reader.TokenType == JsonTokenType.Null ? 0 : reader.GetInt32();
         }
 
         public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)

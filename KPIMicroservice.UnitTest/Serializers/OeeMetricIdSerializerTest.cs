@@ -3,25 +3,25 @@ using KPIMicroservice.Serializers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KPIMicroserviceTest.Serializers
+namespace KPIMicroservice.UnitTest.Serializers
 {
-    class OEEMetricIdEntity
+    class OeeMetricIdEntity
     {
         [JsonPropertyName("id")]
-        [JsonConverter(typeof(OEEMetricIdSerializer))]
+        [JsonConverter(typeof(OeeMetricIdSerializer))]
         public string Id { get; set; }
     }
 
     [TestClass]
-    public class OEEMetricIdSerializerTest_Serialize
+    public class OeeMetricIdSerializerTest
     {
         [TestMethod]
-        [DataRow("9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", EntityType.OEEMetric)]
+        [DataRow("9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", EntityType.OeeMetric)]
         public void Serialize_InputIsId_ReturnJson(string value, string entityType)
         {
             var json = "{\"id\":\"urn:ngsi-ld:" + entityType + ":" + value + "\"}";
 
-            var result = JsonSerializer.Serialize(new OEEMetricIdEntity
+            var result = JsonSerializer.Serialize(new OeeMetricIdEntity
             {
                 Id = value
             });
@@ -30,13 +30,13 @@ namespace KPIMicroserviceTest.Serializers
         }
 
         [TestMethod]
-        [DataRow("9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", EntityType.OEEMetric)]
+        [DataRow("9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", EntityType.OeeMetric)]
         public void Serialize_InputIsJson_ReturnId(string value, string entityType)
         {
             var json = "{\"id\":\"urn:ngsi-ld:" + entityType + ":" + value + "\"}";
-            var entity = JsonSerializer.Deserialize<OEEMetricIdEntity>(json);
+            var entity = JsonSerializer.Deserialize<OeeMetricIdEntity>(json);
 
-            Assert.AreEqual(value, entity.Id);
+            Assert.AreEqual(value, entity?.Id);
         }
     }
 }

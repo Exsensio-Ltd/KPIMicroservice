@@ -1,4 +1,4 @@
-﻿using KPIMicroservice.Models;
+﻿using KPIMicroservice.DTOs;
 using KPIMicroservice.Models.OEE;
 using System;
 using System.Collections.Generic;
@@ -7,25 +7,25 @@ namespace KPIMicroservice.Utils.Calculator
 {
     public class CalculatorContext : ICalculatorContext
     {
-        private IOEECalculator _calculator;
+        private IOeeCalculator _calculator;
 
         public void SetCalculator(CalculationType type)
         {
             _calculator = type switch
             {
-                CalculationType.Simple => new OEESimpleCalculator(),
-                CalculationType.Advanced => new OEEAdvancedCalculator(),
-                _ => throw new ArgumentException("Invalid calclation type"),
+                CalculationType.Simple => new OeeSimpleCalculator(),
+                CalculationType.Advanced => new OeeAdvancedCalculator(),
+                _ => throw new ArgumentException("Invalid calculation type"),
             };
         }
 
-        public IEnumerable<DataSet> ExecuteCalculation(Station station, int reportingPeriod)
+        public IEnumerable<DataSet> ExecuteCalculation(Station station, ReportingPeriod reportingPeriod)
         {
             if (_calculator == null)
             {
                 throw new Exception("Calculator type is not selected");
             }
-            return _calculator.DataSetConverter(station, reportingPeriod);
+            return _calculator.DataSetConverter(station, (int)reportingPeriod);
         }
     }
 }

@@ -11,7 +11,7 @@
 
     public class EntityType
     {
-        public const string OEEMetric = "OEEMetric";
+        public const string OeeMetric = "OEEMetric";
         public const string Product = "Product";
         public const string Station = "Station";
     }

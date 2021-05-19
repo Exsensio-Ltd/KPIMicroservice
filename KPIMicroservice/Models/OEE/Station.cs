@@ -6,6 +6,8 @@ namespace KPIMicroservice.Models.OEE
 {
     public class StationMeta
     {
+        #region Properties
+        
         [JsonPropertyName("name")]
         [JsonConverter(typeof(TextSerializer))]
         public string Name { get; set; }
@@ -21,6 +23,8 @@ namespace KPIMicroservice.Models.OEE
         [JsonPropertyName("totalProductCount")]
         [JsonConverter(typeof(NumberSerializer))]
         public double TotalProductCount { get; set; } = 0;
+
+        #endregion
 
         #region Methods
 
@@ -59,7 +63,7 @@ namespace KPIMicroservice.Models.OEE
         public string RefProduct { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<OEEMetric> Metrics { get; set; }
+        public IEnumerable<OeeMetric> Metrics { get; set; }
 
         #endregion
 

@@ -5,15 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KPIMicroserviceTest.Utils
+namespace KPIMicroservice.UnitTest.Utils
 {
     [TestClass]
-    public class OEESimpleCalculatorTest
+    public class OeeSimpleCalculatorTest
     {
-        private IOEECalculator _calculator;
+        private IOeeCalculator _calculator;
 
         [TestInitialize]
-        public void Initialize() => _calculator = new OEESimpleCalculator();
+        public void Initialize() => _calculator = new OeeSimpleCalculator();
 
         [TestMethod]
         [DataRow("00:00:01", "00:00:55.314", 1, 60, 92)]
@@ -24,7 +24,7 @@ namespace KPIMicroserviceTest.Utils
                 ProductionBreakDuration = breakDuration,
                 ProductionIdealDuration = idealDuration,
             };
-            var metric = new OEEMetric
+            var metric = new OeeMetric
             {
                 ProductionShiftDuration = new TimeSpan(period, 0, 0),
                 GoodProductCount = goodProducts
@@ -43,14 +43,14 @@ namespace KPIMicroserviceTest.Utils
             {
                 ProductionBreakDuration = breakDuration,
                 ProductionIdealDuration = idealDuration,
-                Metrics = new List<OEEMetric>()
+                Metrics = new List<OeeMetric>()
             };
 
             var date = DateTime.Now;
-            var metrics = new List<OEEMetric>();
+            var metrics = new List<OeeMetric>();
             for (var i = 0; i < times; i++)
             {
-                metrics.Add(new OEEMetric()
+                metrics.Add(new OeeMetric()
                 {
                     CreatedTime = date,
                     GoodProductCount = 1

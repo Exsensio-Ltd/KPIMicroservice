@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KPIMicroserviceTest.Serializers
+namespace KPIMicroservice.UnitTest.Serializers
 {
     class ListEntity
     {
@@ -14,7 +14,7 @@ namespace KPIMicroserviceTest.Serializers
     }
 
     [TestClass]
-    public class ListSerializerTest_Serialize
+    public class ListSerializerTest
     {
         [TestMethod]
         public void Serialize_InputIsList_ReturnJson()
@@ -36,7 +36,7 @@ namespace KPIMicroserviceTest.Serializers
             var json = "{\"listItems\":\"1,2,3\"}";
             var entity = JsonSerializer.Deserialize<ListEntity>(json);
 
-            Assert.AreEqual(3, entity.ListItems.Count);
+            Assert.AreEqual(3, entity?.ListItems.Count);
         }
     }
 }

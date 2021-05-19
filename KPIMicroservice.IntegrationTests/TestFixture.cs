@@ -57,7 +57,7 @@ namespace KPIMicroservice.IntegrationTests
         {
             var contextClient = new Mock<ContextClient>();
             contextClient.Setup(x => x.Init()).Verifiable();
-            contextClient.Setup(x => x.GetProducts()).Returns(new List<Product>());
+            contextClient.Setup(x => x.GetProducts());
             contextClient.Setup(x => x.CreateEntityAsync(
                 It.IsAny<string>(),
                 It.IsAny<string>(),
@@ -73,7 +73,7 @@ namespace KPIMicroservice.IntegrationTests
                 It.IsAny<string>()
             )).Returns(Task.FromResult(new Station
             {
-                Metrics = new List<OEEMetric>(),
+                Metrics = new List<OeeMetric>(),
                 ProductionBreakDuration = "00:00:01",
                 ProductionIdealDuration = "00:00:55.323",
             }));

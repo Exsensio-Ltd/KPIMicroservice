@@ -4,7 +4,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KPIMicroserviceTest.Serializers
+namespace KPIMicroservice.UnitTest.Serializers
 {
     class DateTimeEntity
     {
@@ -14,7 +14,7 @@ namespace KPIMicroserviceTest.Serializers
     }
 
     [TestClass]
-    public class DateTimeSerializerTest_Serialize
+    public class DateTimeSerializerTest
     {
         [TestMethod]
         public void Serialize_InputIsDateTime_ReturnJson()
@@ -38,7 +38,7 @@ namespace KPIMicroserviceTest.Serializers
 
             var entity = JsonSerializer.Deserialize<DateTimeEntity>(json);
 
-            Assert.AreEqual(createdTime.ToString("yyyy-MM-ddTHH:mm:ss"), entity.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss"));
+            Assert.AreEqual(createdTime.ToString("yyyy-MM-ddTHH:mm:ss"), entity?.CreatedTime.ToString("yyyy-MM-ddTHH:mm:ss"));
         }
     }
 }

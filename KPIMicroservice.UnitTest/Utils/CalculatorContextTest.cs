@@ -2,7 +2,7 @@
 using KPIMicroservice.Utils.Calculator;
 using System;
 
-namespace KPIMicroserviceTest.Utils
+namespace KPIMicroservice.UnitTest.Utils
 {
     [TestClass]
     public class CalculatorContextTest

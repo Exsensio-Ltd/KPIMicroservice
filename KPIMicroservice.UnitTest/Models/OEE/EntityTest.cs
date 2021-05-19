@@ -1,14 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using KPIMicroservice.Models.OEE;
 
-namespace KPIMicroserviceTest.Models.OEE
+namespace KPIMicroservice.UnitTest.Models.OEE
 {
     [TestClass]
     public class EntityTest
     {
         [TestMethod]
         [DataRow("urn:ngsi-ld:Product:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", "9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb")]
-        public void ProductFullId_IputEntityId_ReturnFullId(string expectedFullId, string id)
+        public void ProductFullId_InputEntityId_ReturnFullId(string expectedFullId, string id)
         {
             var entity = new Product
             {
@@ -19,7 +19,7 @@ namespace KPIMicroserviceTest.Models.OEE
 
         [TestMethod]
         [DataRow("urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", "9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb")]
-        public void StationFullId_IputEntityId_ReturnFullId(string expectedFullId, string id)
+        public void StationFullId_InputEntityId_ReturnFullId(string expectedFullId, string id)
         {
             var entity = new Station
             {
@@ -30,9 +30,9 @@ namespace KPIMicroserviceTest.Models.OEE
 
         [TestMethod]
         [DataRow("urn:ngsi-ld:OEEMetric:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", "9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb")]
-        public void OEEMetricFullId_IputEntityId_ReturnFullId(string expectedFullId, string id)
+        public void OEEMetricFullId_InputEntityId_ReturnFullId(string expectedFullId, string id)
         {
-            var entity = new OEEMetric
+            var entity = new OeeMetric
             {
                 Id = id
             };

@@ -3,7 +3,7 @@ using KPIMicroservice.Serializers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KPIMicroserviceTest.Serializers
+namespace KPIMicroservice.UnitTest.Serializers
 {
     class RefEntity
     {
@@ -13,7 +13,7 @@ namespace KPIMicroserviceTest.Serializers
     }
 
     [TestClass]
-    public class RefSerializerTest_Serialize
+    public class RefSerializerTest
     {
         [TestMethod]
         [DataRow("9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb")]
@@ -36,7 +36,7 @@ namespace KPIMicroserviceTest.Serializers
             var json = "{\"ref\":\"" + value + "\"}";
             var entity = JsonSerializer.Deserialize<RefEntity>(json);
 
-            Assert.AreEqual(value, entity.Ref);
+            Assert.AreEqual(value, entity?.Ref);
         }
     }
 }

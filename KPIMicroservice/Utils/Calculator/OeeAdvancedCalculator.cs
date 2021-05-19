@@ -1,4 +1,4 @@
-﻿using KPIMicroservice.Models;
+﻿using KPIMicroservice.DTOs;
 using KPIMicroservice.Models.OEE;
 using System;
 using System.Collections.Generic;
@@ -6,20 +6,35 @@ using System.Linq;
 
 namespace KPIMicroservice.Utils.Calculator
 {
-    public class OEESimpleCalculator : IOEECalculator
+    public class OeeAdvancedCalculator : IOeeCalculator
     {
-        public (int, int, int, int) Calculate(Station station, OEEMetric data)
+        public (int, int, int, int) Calculate(Station station, OeeMetric data)
         {
+            if (station.TotalProductCount == 0)
+            {
+                station.TotalProductCount = data.GoodProductCount;
+            }
+
             var breakResult = TimeSpan.TryParse(station.ProductionBreakDuration?.Trim(), out var productionBreakDuration);
             var breakTime = new TimeSpan(0, (int)(breakResult ? productionBreakDuration.TotalMinutes : 0), 0);
 
             var idealResult = TimeSpan.TryParse(station.ProductionIdealDuration?.Trim(), out var productionIdealDuration);
             var idealDuration = idealResult ? productionIdealDuration.TotalSeconds : 0;
 
-            var plannedProductionTime = data.ProductionShiftDuration.Subtract(breakTime);
-            var oee = data.GoodProductCount * idealDuration / plannedProductionTime.TotalSeconds;
+            var runTime = data.ProductionShiftDuration.Subtract(breakTime);
 
-            return (0, 0, 0, Convert.ToInt32(oee * 100));
+            var availability = runTime.TotalMinutes / data.ProductionShiftDuration.TotalSeconds;
+            var performance = idealDuration * station.TotalProductCount / runTime.TotalMinutes;
+            var quality = data.GoodProductCount / station.TotalProductCount;
+
+            var oee = availability * performance * quality;
+
+            return (
+                Convert.ToInt32(availability * 1000),
+                Convert.ToInt32(performance),
+                Convert.ToInt32(quality * 10),
+                Convert.ToInt32(oee * 100)
+            );
         }
 
         public IEnumerable<DataSet> DataSetConverter(Station station, int reportingPeriod)
@@ -32,7 +47,7 @@ namespace KPIMicroservice.Utils.Calculator
             var startTime = station.Metrics.First().CreatedTime;
             var endTime = startTime.AddHours(reportingPeriod);
 
-            var groupedItems = new Dictionary<string, OEEMetric>();
+            var groupedItems = new Dictionary<string, OeeMetric>();
             foreach (var item in station.Metrics)
             {
                 var createdTime = item.CreatedTime;

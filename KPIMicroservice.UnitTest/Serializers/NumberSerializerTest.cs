@@ -3,7 +3,7 @@ using KPIMicroservice.Serializers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace KPIMicroserviceTest.Serializers
+namespace KPIMicroservice.UnitTest.Serializers
 {
     class NumberEntity
     {
@@ -13,7 +13,7 @@ namespace KPIMicroserviceTest.Serializers
     }
 
     [TestClass]
-    public class NumberSerializerTest_Serialize
+    public class NumberSerializerTest
     {
         [TestMethod]
         [DataRow(1.4)]
@@ -38,7 +38,7 @@ namespace KPIMicroserviceTest.Serializers
             var json = "{\"number\":" + value + "}";
             var entity = JsonSerializer.Deserialize<NumberEntity>(json);
 
-            Assert.AreEqual(value, entity.Number);
+            Assert.AreEqual(value, entity?.Number);
         }
     }
 }
