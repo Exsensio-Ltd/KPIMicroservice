@@ -4,10 +4,10 @@
 
 ## Available API endpoints
 
--   [Add OEE metric to the context](#add)
--   [Fetch OEE data set by station Id](#fetch)
--   [Update station meta data](#update)
--   [Fetch and calculate OEE data set by station Id](#calculate)
+-   [Add OEE metric to the context](#add-oee-metric-to-the-context)
+-   [Fetch OEE data set by station Id](#fetch-oee-data-set-by-station-id)
+-   [Update station meta data](#update-station-meta-data)
+-   [Fetch and calculate OEE data set by station Id](#fetch-and-calculate-oee-data-set-by-station-id)
 
 ### Add OEE metric to the context
 * **URL**
