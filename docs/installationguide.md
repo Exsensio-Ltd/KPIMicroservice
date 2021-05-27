@@ -3,9 +3,8 @@
 [Back](https://github.com/Exsensio-Ltd/OEEMicroservice/blob/master/README.md#install)
 
 -   [Installation](#installation)
-    -   [Arduino IDE](#arduino-ide)
+    -   [.NET 5](#dotnet)
     -   [Orion Context Broker](#orion-context-broker)
--   [Configuration](#configuration)
 -   [Usage](#usage)
 
 
