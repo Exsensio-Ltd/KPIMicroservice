@@ -1,6 +1,6 @@
 # OEE Microservice
 
-[![License: MIT](https://img.shields.io/github/license/ramp-eu/TTE.project1.svg)](https://opensource.org/licenses/MIT)
+![GitHub](https://img.shields.io/github/license/Exsensio-Ltd/OEEMicroservice)
 ![CI](https://github.com/Exsensio-Ltd/OEEMicroservice/actions/workflows/dotnet.yml/badge.svg)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4187/badge)](https://bestpractices.coreinfrastructure.org/projects/4187)
 
@@ -42,4 +42,4 @@ dotnet test --no-build --verbosity quiet
 
 ## License
 
-[MIT](LICENSE) © <TTE>
+[Apache2.0](LICENSE) © Exsensio Ltd
