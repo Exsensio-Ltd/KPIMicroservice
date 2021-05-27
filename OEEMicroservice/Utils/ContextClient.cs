@@ -136,6 +136,15 @@ namespace OEEMicroservice.Utils
             return station;
         }
 
+        public virtual async Task CheckConnection()
+        {
+            var response = await _client.GetAsync("/version");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadAsObjectAsync<ContextVersion>();
+            Console.WriteLine($"Connected: v{result.Orion.Version}, Uptime: {result.Orion.Uptime}");
+        }
+
         public void Dispose()
         {
             Dispose(true);

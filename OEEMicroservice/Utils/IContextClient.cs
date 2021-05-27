@@ -11,5 +11,6 @@ namespace OEEMicroservice.Utils
         Task<Station> GetEntitiesAsync(string stationId);
         IEnumerable<Product> GetProducts();
         Task UpdateStationMeta(string stationId, StationMeta meta);
+        Task CheckConnection();
     }
 }
