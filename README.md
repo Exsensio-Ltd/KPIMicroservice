@@ -8,11 +8,9 @@ OEE (Overall Equipment Effectiveness) is the gold standard for measuring manufac
 
 Measuring OEE is a manufacturing best practice. By measuring OEE and the underlying losses, you will gain important insights on how to systematically improve your manufacturing process. OEE is the single best metric for identifying losses, benchmarking progress, and improving the productivity of manufacturing equipment (i.e., eliminating waste).
 
---extract from oee.com
+The microservice allows you to capture and analyze OEE of Station / cell in Manufacturing line. This Microservice can be used with existing software systems along with orion context broker. The Graphana Pluggin allows you to visually the OEE Metric (Availablity, Quality and Performance indicators) by a given station and a given product.
 
-the microservice allows you to capture and analyze OEE of Station / cell in Manufacturing line. This Microservice can be used with existing software systems along with orion context broker. the Graphana Pluggin allows you to visually the OEE Metric ( Availablity , Quality and Performance indicators) by a given station and a given product.
-
-The vision here is that no matter what the product or the station in the prodcution line , we will be able to capture the OEE and this value will help the operation mangers see the bottle necks int the production line and also usage of the equipments .
+The vision here is that no matter what the product or the station in the prodcution line, we will be able to capture the OEE and this value will help the operation mangers see the bottle necks int the production line and also usage of the equipments.
 
 ## Contents
 
