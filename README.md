@@ -18,7 +18,6 @@ The vision here is that no matter what the product or the station in the prodcut
 
 -   [Background](#background)
 -   [Install](#install)
--   [Usage](#usage)
 -   [API](#api)
 -   [Testing](#testing)
 -   [License](#license)
@@ -30,11 +29,6 @@ OEE Microservice provides API to interact with Fiware context broker to store te
 ## Install
 
 Information about how to install the OEEMicroservice can be found at the corresponding section of the [Installation Guide](https://github.com/Exsensio-Ltd/OEEMicroservice/blob/master/docs/installationguide.md).
-
-## Usage
-
-Information about how to use the the connectivity kit can be found in the [User & Programmers Manual](https://github.com/Exsensio-Ltd/OEEMicroservice/blob/master/docs/usermanual.md).
-
 
 ## API
 
