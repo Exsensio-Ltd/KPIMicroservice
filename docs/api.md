@@ -1,6 +1,6 @@
 # API
 
-[Back](https://github.com/Exsensio-Ltd/OEEMicroservice/blob/master/README.md#api)
+[Back](/README.md#api)
 
 ## Available API endpoints
 
