@@ -53,7 +53,6 @@ namespace OEEMicroservice.IntegrationTests
         protected virtual void InitializeServices(IServiceCollection services)
         {
             var contextClient = new Mock<IContextClient>();
-            contextClient.Setup(x => x.Init()).Verifiable();
             contextClient.Setup(x => x.GetProducts());
             contextClient.Setup(x => x.CreateEntityAsync(
                 It.IsAny<string>(),
@@ -71,8 +70,8 @@ namespace OEEMicroservice.IntegrationTests
             )).Returns(Task.FromResult(new Station
             {
                 Metrics = new List<OeeMetric>(),
-                ProductionBreakDuration = "00:00:01",
-                ProductionIdealDuration = "00:00:55.323",
+                ProductionBreakDuration = string.Empty,
+                ProductionIdealDuration = string.Empty
             }));
 
             services.AddSingleton(contextClient.Object);

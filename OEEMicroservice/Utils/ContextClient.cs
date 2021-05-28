@@ -28,15 +28,6 @@ namespace OEEMicroservice.Utils
 
         public ContextClient()
         {
-            Init();
-        }
-
-        #endregion
-
-        #region Methods
-
-        public void Init()
-        {
             var baseUrl = Environment.GetEnvironmentVariable("CONTEXT_URL");
             if (string.IsNullOrEmpty(baseUrl))
             {
@@ -49,6 +40,10 @@ namespace OEEMicroservice.Utils
             };
             Task.WaitAll(LoadProductsAsync(), LoadStationsAsync());
         }
+
+        #endregion
+
+        #region Methods
 
         public async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, int totalProductCount = 0)
         {
