@@ -35,14 +35,14 @@ namespace OEEMicroservice.Utils
 
         #region Methods
 
-        public virtual void Init()
+        public void Init()
         {
             var baseUrl = Environment.GetEnvironmentVariable("CONTEXT_URL");
             if (string.IsNullOrEmpty(baseUrl))
             {
                 throw new Exception("Base URL is not present in environment");
             }
-            
+
             _client = new HttpClient(_httpHandler, true)
             {
                 BaseAddress = new Uri(baseUrl)
@@ -50,7 +50,7 @@ namespace OEEMicroservice.Utils
             Task.WaitAll(LoadProductsAsync(), LoadStationsAsync());
         }
 
-        public virtual async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, int totalProductCount = 0)
+        public async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, int totalProductCount = 0)
         {
             var productId = await TryAddProductAsync(product);
             var stationId = await TryAddStationAsync(station, productId, breakDuration, idealDuration, totalProductCount);
@@ -72,7 +72,7 @@ namespace OEEMicroservice.Utils
             await _client.PostAsync(EntityUrl, content);
         }
 
-        public virtual async Task UpdateStationMeta(string stationId, StationMeta meta)
+        public async Task UpdateStationMeta(string stationId, StationMeta meta)
         {
             var result = Stations.FirstOrDefault(s => s.Value.GetFullId() == stationId);
             if (!meta.IsUpdated(result.Value))
@@ -87,7 +87,7 @@ namespace OEEMicroservice.Utils
             await response.Content.ReadAsStringAsync();
         }
 
-        public virtual IEnumerable<Product> GetProducts()
+        public IEnumerable<Product> GetProducts()
         {
             return Products.Select(p => new Product
             {
@@ -107,7 +107,7 @@ namespace OEEMicroservice.Utils
             }).ToList();
         }
 
-        public virtual async Task<Station> GetEntitiesAsync(string stationId)
+        public async Task<Station> GetEntitiesAsync(string stationId)
         {
             var parametersStation = BuildParams(new Dictionary<string, string>
             {
@@ -136,7 +136,7 @@ namespace OEEMicroservice.Utils
             return station;
         }
 
-        public virtual async Task CheckConnection()
+        public async Task CheckConnection()
         {
             var response = await _client.GetAsync("/version");
             response.EnsureSuccessStatusCode();
@@ -151,7 +151,7 @@ namespace OEEMicroservice.Utils
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (!_disposed)
             {
@@ -215,11 +215,6 @@ namespace OEEMicroservice.Utils
             }
             catch (HttpRequestException)
             { }
-        }
-
-        private static string GetFullId(string type, string id)
-        {
-            return $"urn:ngsi-ld:{type}:{id}";
         }
 
         private static string BuildParams(Dictionary<string, string> parameters)

@@ -54,7 +54,7 @@ namespace OEEMicroservice
             }
 
             app.UseHttpsRedirection();
-            
+
             app.UseRouting();
 
             app.UseCors("ServicePolicy");

@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>$(NoWarn);1591</NoWarn>
     <UserSecretsId>12a8181d-f023-4c84-bb9f-2a0fa35fceaa</UserSecretsId>
+	<AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>

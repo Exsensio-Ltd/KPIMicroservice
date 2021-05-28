@@ -7,20 +7,20 @@
         /// </summary>
         /// <example>12:00 29-03</example>
         public string Text { get; set; }
-        
+
         /// <summary>
         /// OEE value
         /// </summary>
         /// <example>89</example>
         public int Value { get; set; }
-        
+
         /// <summary>
         /// Availability takes into account all events that stop planned production long enough where it makes sense
         /// to track a reason for being down (typically several minutes).
         /// </summary>
         /// <example>98</example>
         public double Availability { get; set; } = 0;
-        
+
         /// <summary>
         /// Performance OEE Performance – One of the three OEE Factors.
         /// Takes into account Performance Loss (factors that cause the process to operate at less than the maximum possible speed, when running).
@@ -29,7 +29,7 @@
         /// </summary>
         /// <example>76</example>
         public double Performance { get; set; } = 0;
-        
+
         /// <summary>
         /// Quality takes into account manufactured parts that do not meet quality standards, including parts that need rework.
         /// </summary>

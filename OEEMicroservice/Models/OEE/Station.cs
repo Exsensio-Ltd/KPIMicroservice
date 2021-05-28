@@ -7,7 +7,7 @@ namespace OEEMicroservice.Models.OEE
     public class StationMeta
     {
         #region Properties
-        
+
         [JsonPropertyName("name")]
         [JsonConverter(typeof(TextSerializer))]
         public string Name { get; set; }
@@ -35,13 +35,11 @@ namespace OEEMicroservice.Models.OEE
                 return false;
             }
 
-            if ((!string.IsNullOrEmpty(station.ProductionBreakDuration) && ProductionBreakDuration != station.ProductionBreakDuration) ||
-                (!string.IsNullOrEmpty(station.ProductionIdealDuration) && ProductionIdealDuration != station.ProductionIdealDuration) ||
-                (TotalProductCount != station.TotalProductCount))
-            {
-                return true;
-            }
-            return false;
+            return !string.IsNullOrEmpty(station.ProductionBreakDuration) &&
+                   ProductionBreakDuration != station.ProductionBreakDuration ||
+                   !string.IsNullOrEmpty(station.ProductionIdealDuration) &&
+                   ProductionIdealDuration != station.ProductionIdealDuration ||
+                   !TotalProductCount.Equals(station.TotalProductCount);
         }
 
         #endregion

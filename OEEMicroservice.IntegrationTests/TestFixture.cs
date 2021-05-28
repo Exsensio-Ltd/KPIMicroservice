@@ -16,46 +16,43 @@ namespace OEEMicroservice.IntegrationTests
 {
     public class TestFixture<TStartup> : IDisposable
     {
-        public static string GetProjectPath(string projectRelativePath, Assembly startupAssembly)
-        {
-            var projectName = startupAssembly.GetName().Name;
+        private readonly TestServer _server;
+        public HttpClient Client { get; }
 
-            var applicationBasePath = AppContext.BaseDirectory;
-
-            var directoryInfo = new DirectoryInfo(applicationBasePath);
-
-            do
-            {
-                directoryInfo = directoryInfo.Parent;
-
-                var projectDirectoryInfo = new DirectoryInfo(Path.Combine(directoryInfo.FullName, projectRelativePath));
-
-                if (projectDirectoryInfo.Exists)
-                    if (new FileInfo(Path.Combine(projectDirectoryInfo.FullName, projectName, $"{projectName}.csproj")).Exists)
-                        return Path.Combine(projectDirectoryInfo.FullName, projectName);
-            }
-            while (directoryInfo.Parent != null);
-
-            throw new Exception($"Project root could not be located using the application root {applicationBasePath}.");
-        }
-
-        private TestServer Server;
+        #region Constructors
 
         public TestFixture() : this(Path.Combine(""))
         {
         }
 
-        public HttpClient Client { get; }
+        private TestFixture(string relativeTargetProjectParentDir) 
+        {
+            var startupAssembly = typeof(TStartup).GetTypeInfo().Assembly;
+            var contentRoot = GetProjectPath(relativeTargetProjectParentDir, startupAssembly);
+
+            _server = new TestServer(new WebHostBuilder()
+                .UseEnvironment("Testing")
+                .ConfigureTestServices(InitializeServices)
+                .UseContentRoot(contentRoot)
+                .UseConfiguration(new ConfigurationBuilder()
+                    .SetBasePath(contentRoot)
+                    .AddJsonFile("appsettings.json")
+                    .Build())
+                .UseStartup<Startup>());
+            Client = _server.CreateClient();
+        }
+        
+        #endregion
 
         public void Dispose()
         {
             Client.Dispose();
-            Server.Dispose();
+            _server.Dispose();
         }
 
         protected virtual void InitializeServices(IServiceCollection services)
         {
-            var contextClient = new Mock<ContextClient>();
+            var contextClient = new Mock<IContextClient>();
             contextClient.Setup(x => x.Init()).Verifiable();
             contextClient.Setup(x => x.GetProducts());
             contextClient.Setup(x => x.CreateEntityAsync(
@@ -78,25 +75,31 @@ namespace OEEMicroservice.IntegrationTests
                 ProductionIdealDuration = "00:00:55.323",
             }));
 
-            services.AddSingleton<IContextClient>(contextClient.Object);
+            services.AddSingleton(contextClient.Object);
             services.BuildServiceProvider();
         }
-
-        protected TestFixture(string relativeTargetProjectParentDir) 
+        
+        private static string GetProjectPath(string projectRelativePath, Assembly startupAssembly)
         {
-            var startupAssembly = typeof(TStartup).GetTypeInfo().Assembly;
-            var contentRoot = GetProjectPath(relativeTargetProjectParentDir, startupAssembly);
+            var projectName = startupAssembly.GetName().Name;
 
-            Server = new TestServer(new WebHostBuilder()
-                .UseEnvironment("Testing")
-                .ConfigureTestServices(InitializeServices)
-                .UseContentRoot(contentRoot)
-                .UseConfiguration(new ConfigurationBuilder()
-                    .SetBasePath(contentRoot)
-                    .AddJsonFile("appsettings.json")
-                    .Build())
-                .UseStartup<Startup>());
-            Client = Server.CreateClient();
+            var applicationBasePath = AppContext.BaseDirectory;
+
+            var directoryInfo = new DirectoryInfo(applicationBasePath);
+
+            do
+            {
+                directoryInfo = directoryInfo.Parent;
+
+                var projectDirectoryInfo = new DirectoryInfo(Path.Combine(directoryInfo.FullName, projectRelativePath));
+
+                if (projectDirectoryInfo.Exists)
+                    if (new FileInfo(Path.Combine(projectDirectoryInfo.FullName, projectName, $"{projectName}.csproj")).Exists)
+                        return Path.Combine(projectDirectoryInfo.FullName, projectName);
+            }
+            while (directoryInfo.Parent != null);
+
+            throw new Exception($"Project root could not be located using the application root {applicationBasePath}.");
         }
     }
 }
