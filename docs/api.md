@@ -70,7 +70,7 @@
 
   ```
   curl -iX PUT \
-    --url 'https://localhost:5004/api/oee/add' \
+    --url 'http://localhost:51803/api/oee/add' \
     -header 'Content-Type: application/json' \
     -data '
   {
@@ -85,7 +85,7 @@
   OR
 
   ```javascript
-    fetch("https://localhost:5004/api/oee/add", {
+    fetch("http://localhost:51803/api/oee/add", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -155,13 +155,13 @@
 * **Sample Call:**
 
   ```
-  curl -iX GET --url 'https://localhost:5004/api/oee/stations'
+  curl -iX GET --url 'http://localhost:51803/api/oee/stations'
   ```
 
   OR
 
   ```javascript
-    fetch("https://localhost:5004/api/oee/stations")
+    fetch("http://localhost:51803/api/oee/stations")
       .then(response => response.json())
       .then(data => console.log(data));
   ```
@@ -209,7 +209,7 @@
 
   ```
   curl -iX POST \
-    --url 'https://localhost:5004/api/oee/station/urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb' \
+    --url 'http://localhost:51803/api/oee/station/urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb' \
     -header 'Content-Type: application/json' \
     -data '
   {
@@ -222,7 +222,7 @@
   OR
 
   ```javascript
-    fetch("https://localhost:5004/api/oee/station/urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", {
+    fetch("http://localhost:51803/api/oee/station/urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -307,13 +307,13 @@
 * **Sample Call:**
 
   ```
-  curl -iX GET --url 'https://localhost:5004/api/oee/calculate?id=urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb&reportingPeriod=1&type=0'
+  curl -iX GET --url 'http://localhost:51803/api/oee/calculate?id=urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb&reportingPeriod=1&type=0'
   ```
 
   OR
 
   ```javascript
-    fetch("https://localhost:5004/api/oee/calculate?id=urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb&reportingPeriod=1&type=0")
+    fetch("http://localhost:51803/api/oee/calculate?id=urn:ngsi-ld:Station:9bc58c8b-bcd7-41cc-b2ce-4b2e59266dfb&reportingPeriod=1&type=0")
       .then(response => response.json())
       .then(data => console.log(data));
   ```

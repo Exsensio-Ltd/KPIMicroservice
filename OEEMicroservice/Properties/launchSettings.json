@@ -1,5 +1,4 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,40 +7,39 @@
       "sslPort": 44368
     }
   },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONTEXT_URL": "http://127.0.0.1:1026"
+        "CONTEXT_URL": "http://127.0.0.1:1026",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "OEEMicroservice": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:5004;http://localhost:5003",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONTEXT_URL": "http://127.0.0.1:1026"
-      }
+        "CONTEXT_URL": "http://127.0.0.1:1026",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:51803"
     },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://+:80",
+        "CONTEXT_URL": "http://172.17.0.1:1026"
+      },
       "publishAllPorts": true,
       "httpPort": 51803,
-      "useSSL": true,
-      "sslPort": 44360,
-      "environmentVariables": {
-        "CONTEXT_URL": "http://172.17.0.1:1026",
-        "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "443"
-      }
+      "useSSL": false
     }
   }
 }

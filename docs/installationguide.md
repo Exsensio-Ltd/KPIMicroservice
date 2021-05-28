@@ -52,6 +52,6 @@ docker build -t oeemicroservice .
 
 Run container
 ```
-docker run -it --rm -p 5004:80 --env CONTEXT_URL=http://172.17.0.1:1026 --name oeemicroservice_sample oeemicroservice
+docker run -it --rm -p 51803:80 --env CONTEXT_URL=http://172.17.0.1:1026 --name oeemicroservice_sample oeemicroservice
 ```
 *Note:* Where the **CONTEXT_URL** is the URL of the Fiware context broker.

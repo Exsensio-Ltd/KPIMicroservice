@@ -27,7 +27,7 @@ namespace OEEMicroservice
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "KPI Microservice", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OEE Microservice", Version = "v1" });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -50,10 +50,8 @@ namespace OEEMicroservice
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KPI Microservice v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OEE Microservice v1"));
             }
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
