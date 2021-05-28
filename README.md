@@ -2,7 +2,7 @@
 
 ![GitHub](https://img.shields.io/github/license/Exsensio-Ltd/OEEMicroservice)
 ![CI](https://github.com/Exsensio-Ltd/OEEMicroservice/actions/workflows/dotnet.yml/badge.svg)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4187/badge)](https://bestpractices.coreinfrastructure.org/projects/4187)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4904/badge)](https://bestpractices.coreinfrastructure.org/projects/4904)
 
 OEE (Overall Equipment Effectiveness) is the gold standard for measuring manufacturing productivity. Simply put – it identifies the percentage of manufacturing time that is truly productive. An OEE score of 100% means you are manufacturing only Good Parts, as fast as possible, with no Stop Time. In the language of OEE that means 100% Quality (only Good Parts), 100% Performance (as fast as possible), and 100% Availability (no Stop Time).
 
