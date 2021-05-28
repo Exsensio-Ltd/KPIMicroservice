@@ -1,6 +1,6 @@
 # Installation Guide
 
-[Back](https://github.com/Exsensio-Ltd/OEEMicroservice/blob/master/README.md#install)
+[Back](/README.md#install)
 
 -   [Installation](#installation)
     -   [.NET 5](#dotnet)
