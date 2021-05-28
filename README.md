@@ -26,19 +26,17 @@ OEE Microservice provides API to interact with Fiware context broker to store te
 
 ## Install
 
-Information about how to install the OEEMicroservice can be found at the corresponding section of the [Installation Guide](https://github.com/Exsensio-Ltd/OEEMicroservice/blob/master/docs/installationguide.md).
+Information about how to install the OEEMicroservice can be found at the corresponding section of the [Installation Guide](/docs/installationguide.md).
 
 ## API
 
-More information about API usage of the OEE microservice can be found in [API documentation](https://github.com/Exsensio-Ltd/OEEMicroservice/blob/master/docs/api.md)
+More information about API usage of the OEE microservice can be found in [API documentation](/docs/api.md)
 
 ## Testing
 
 The project contains integration and unit test implemented with xUnit and MSTest. To run tests use the following command:
 
-```
-dotnet test --no-build --verbosity quiet
-```
+`dotnet test --no-build --verbosity quiet`
 
 ## License
 
