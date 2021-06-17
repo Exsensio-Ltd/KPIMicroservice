@@ -51,7 +51,7 @@ namespace OEEMicroservice.Controllers
 
                 return StatusCode(StatusCodes.Status201Created, new ResponseMessage
                 {
-                    Message = "Metric added.",
+                    Message = "Metric added",
                     HasError = false
                 });
             }
@@ -66,7 +66,7 @@ namespace OEEMicroservice.Controllers
         }
 
         /// <summary>
-        /// Fetch OEE data set by station Id
+        /// Fetch stations
         /// </summary>
         /// <response code="200">List of the stations</response>
         /// <response code="500">Error thrown by context broker</response>
@@ -113,7 +113,7 @@ namespace OEEMicroservice.Controllers
         /// </summary>
         /// <param name="id" example="urn:ngsi-ld:Station:8b960a8e-ab44-40e6-aaed-8499cb428d18">Station entity Id</param>
         /// <param name="data">Meta data</param>
-        /// <response code="200">List of the products with the stations</response>
+        /// <response code="200">Success message</response>
         /// <response code="500">Error thrown by context broker</response>
         /// <returns></returns>
         [HttpPost("station/{id}")]
@@ -134,7 +134,7 @@ namespace OEEMicroservice.Controllers
 
                 return Ok(new ResponseMessage
                 {
-                    Message = "Station meta updated.",
+                    Message = "Station meta updated",
                     HasError = false
                 });
             }
@@ -149,7 +149,7 @@ namespace OEEMicroservice.Controllers
         }
 
         /// <summary>
-        /// Fetch and calculate OEE data set by station Id
+        /// Fetch calculated OEE data set by station Id
         /// </summary>
         /// <param name="calculationData">More details of [OEE](https://www.oee.com/calculating-oee.html)</param>
         /// <param name="calculator"></param>
