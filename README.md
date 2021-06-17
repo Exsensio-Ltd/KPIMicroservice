@@ -36,6 +36,10 @@ OEE = (Good Count × Ideal Cycle Time) / Planned Production Time
 
 The advanced OEE calculation is based on the three OEE Factors: Availability, Performance, and Quality.
 
+```
+OEE = Availability × Performance × Quality
+```
+
 #### Availability
 
 Availability takes into account all events that stop planned production long enough where it makes sense to track a reason for being down (typically several minutes).
@@ -62,14 +66,6 @@ Quality is calculated as:
 
 ```
 Quality = Good Count / Total Count
-```
-
-#### OEE
-
-OEE takes into account all losses, resulting in a measure of truly productive manufacturing time. It is calculated as:
-
-```
-OEE = Availability × Performance × Quality
 ```
 
 ## Install
