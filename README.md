@@ -32,6 +32,13 @@ Information about how to install the OEEMicroservice can be found at the corresp
 
 More information about API usage of the OEE microservice can be found in [API documentation](/docs/api.md)
 
+### Postman <img src="https://www.postman.com/favicon-32x32.png" align="left"  height="30" width="30">
+
+The tutorials which use HTTP requests supply a collection for use with the Postman utility. Postman is a testing
+framework for REST APIs. The tool can be downloaded from [www.getpostman.com](www.getpostman.com). All the OEEMicroservice
+Postman collections can downloaded directly from the
+[Postman API network](https://documenter.getpostman.com/view/16273471/TzeWJ91y)
+
 ## Testing
 
 The project contains integration and unit test implemented with xUnit and MSTest. To run tests use the following command:
