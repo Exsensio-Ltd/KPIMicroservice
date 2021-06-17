@@ -5,7 +5,7 @@
 ## Available API endpoints
 
 -   [Add OEE metric to the context](#add-oee-metric-to-the-context)
--   [Fetch OEE data set by station Id](#fetch-oee-data-set-by-station-id)
+-   [Fetch stations](#fetch-stations)
 -   [Update station meta data](#update-station-meta-data)
 -   [Fetch and calculate OEE data set by station Id](#fetch-and-calculate-oee-data-set-by-station-id)
 
@@ -38,7 +38,7 @@
   * **Code:** 200 <br />
     **Content:**
     ```json
-    { "hasError": false, "message": "Metric added." }
+    { "hasError": false, "message": "Metric added" }
     ```
 
 * **Error Response:**
@@ -102,7 +102,7 @@
       .then(data => console.log(data));
   ```
 
-### Fetch OEE data set by station Id
+### Fetch stations
 
 * **URL**
 
@@ -194,7 +194,7 @@
   * **Code:** 200 <br />
     **Content:**
     ```json
-    { "hasError": false, "message": "Station meta updated." }
+    { "hasError": false, "message": "Station meta updated" }
     ```
 
 * **Error Response:**
@@ -238,6 +238,48 @@
   ```
 
 ### Fetch and calculate OEE data set by station Id
+
+Calculation OEE awailable in two ways: Simple and Advanced
+
+#### Simple OEE calculation
+
+The simplest way to calculate OEE is as the ratio of Fully Productive Time to Planned Production Time. Fully Productive Time is just another way of saying manufacturing only Good Parts as fast as possible (Ideal Cycle Time) with no Stop Time. Hence the calculation is:
+
+```
+OEE = (Good Count × Ideal Cycle Time) / Planned Production Time
+```
+
+#### Advanced OEE calculation
+
+The advanced OEE calculation is based on the three OEE Factors: Availability, Performance, and Quality.
+
+```
+OEE = Availability × Performance × Quality
+```
+
+##### Availability
+Availability takes into account all events that stop planned production long enough where it makes sense to track a reason for being down (typically several minutes). Availability is calculated as the ratio of Run Time to Planned Production Time:
+
+```
+Availability = Run Time / Planned Production Time
+```
+
+##### Performance
+
+Performance takes into account anything that causes the manufacturing process to run at less than the maximum possible speed when it is running (including both Slow Cycles and Small Stops). Performance is the ratio of Net Run Time to Run Time. It is calculated as:
+
+```
+Performance = (Ideal Cycle Time × Total Count) / Run Time
+```
+
+##### Quality
+
+Quality takes into account manufactured parts that do not meet quality standards, including parts that need rework. Remember, OEE Quality is similar to First Pass Yield, in that it defines Good Parts as parts that successfully pass through the manufacturing process the first time without needing any rework. Quality is calculated as:
+
+```
+Quality = Good Count / Total Count
+```
+
 * **URL**
 
   `/api/oee/calculate`
@@ -255,6 +297,10 @@
   reportingPeriod=[integer]
   type=[integer]
   ```
+  
+  **Awailable values:**
+    * reportingPeriod = Reporting period in hours. Available values : 1, 2, 3, 4, 5, 6, 7, 8
+    * type = OEE calculation type. Available values : 0, 1
 
 * **Data Params**
 
