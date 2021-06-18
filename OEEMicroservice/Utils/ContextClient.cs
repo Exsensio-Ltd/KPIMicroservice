@@ -45,7 +45,7 @@ namespace OEEMicroservice.Utils
 
         #region Methods
 
-        public async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, int totalProductCount = 0)
+        public async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, DateTime createTime, int totalProductCount = 1)
         {
             var productId = await TryAddProductAsync(product);
             var stationId = await TryAddStationAsync(station, productId, breakDuration, idealDuration, totalProductCount);
@@ -61,6 +61,7 @@ namespace OEEMicroservice.Utils
             {
                 Id = Guid.NewGuid().ToString(),
                 RefStation = stationId,
+                CreatedTime = createTime
             };
 
             var content = new StringContent(JsonSerializer.Serialize(entity), System.Text.Encoding.UTF8, "application/json");

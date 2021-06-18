@@ -46,6 +46,7 @@ namespace OEEMicroservice.Controllers
                     metric.StationName,
                     metric.ProductionBreakDuration,
                     metric.ProductionIdealDuration,
+                    metric.CreateTime,
                     metric.TotalProductCount
                 );
 

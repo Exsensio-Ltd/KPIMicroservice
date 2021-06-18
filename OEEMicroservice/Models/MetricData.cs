@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OEEMicroservice.Models
@@ -25,6 +26,13 @@ namespace OEEMicroservice.Models
         /// <example>00:00:55.123</example>
         [Required]
         public string ProductionIdealDuration { get; set; }
+
+        /// <summary>
+        /// Time when record should be created
+        /// </summary>
+        /// <example>6/18/2021 8:04:46 AM</example>
+        [Required]
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// Total of all produced parts
