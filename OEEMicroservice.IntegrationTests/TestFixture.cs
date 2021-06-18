@@ -59,6 +59,7 @@ namespace OEEMicroservice.IntegrationTests
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
+                It.IsAny<DateTime>(),
                 It.IsAny<int>()
             )).Returns(Task.FromResult(default(object)));
             contextClient.Setup(x => x.UpdateStationMeta(
