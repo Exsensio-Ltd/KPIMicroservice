@@ -45,7 +45,7 @@ namespace OEEMicroservice.Utils
 
         #region Methods
 
-        public async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, DateTime createTime, int totalProductCount = 1)
+        public async Task CreateEntityAsync(string product, string station, string breakDuration, string idealDuration, DateTime createTime, int totalProductCount = 0)
         {
             var productId = await TryAddProductAsync(product);
             var stationId = await TryAddStationAsync(station, productId, breakDuration, idealDuration, totalProductCount);
@@ -130,15 +130,6 @@ namespace OEEMicroservice.Utils
             station.Metrics = metrics;
 
             return station;
-        }
-
-        public async Task CheckConnection()
-        {
-            var response = await _client.GetAsync("/version");
-            response.EnsureSuccessStatusCode();
-
-            var result = await response.Content.ReadAsObjectAsync<ContextVersion>();
-            Console.WriteLine($"Connected: v{result.Orion.Version}, Uptime: {result.Orion.Uptime}");
         }
 
         public void Dispose()

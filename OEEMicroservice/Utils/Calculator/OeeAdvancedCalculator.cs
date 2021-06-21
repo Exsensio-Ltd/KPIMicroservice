@@ -19,20 +19,20 @@ namespace OEEMicroservice.Utils.Calculator
             var breakTime = new TimeSpan(0, (int)(breakResult ? productionBreakDuration.TotalMinutes : 0), 0);
 
             var idealResult = TimeSpan.TryParse(station.ProductionIdealDuration?.Trim(), out var productionIdealDuration);
-            var idealDuration = idealResult ? productionIdealDuration.TotalSeconds : 0;
+            var idealCycleTime = idealResult ? productionIdealDuration.TotalSeconds : 0;
 
             var runTime = data.ProductionShiftDuration.Subtract(breakTime);
 
-            var availability = runTime.TotalMinutes / data.ProductionShiftDuration.TotalSeconds;
-            var performance = idealDuration * station.TotalProductCount / runTime.TotalMinutes;
+            var availability = runTime.TotalSeconds / data.ProductionShiftDuration.TotalSeconds;
+            var performance = idealCycleTime * station.TotalProductCount / runTime.TotalSeconds;
             var quality = data.GoodProductCount / station.TotalProductCount;
 
             var oee = availability * performance * quality;
 
             return (
-                Convert.ToInt32(availability * 1000),
-                Convert.ToInt32(performance),
-                Convert.ToInt32(quality * 10),
+                Convert.ToInt32(availability * 100),
+                Convert.ToInt32(performance * 100),
+                Convert.ToInt32(quality * 100),
                 Convert.ToInt32(oee * 100)
             );
         }

@@ -63,8 +63,6 @@ namespace OEEMicroservice
             {
                 endpoints.MapControllers();
             });
-
-            contextClient.CheckConnection().Wait();
         }
     }
 }
