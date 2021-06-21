@@ -16,7 +16,7 @@ namespace OEEMicroservice.UnitTest.Utils
         public void Initialize() => _calculator = new OeeAdvancedCalculator();
 
         [TestMethod]
-        [DataRow("00:00:01", "00:00:55.314", 1, 60, 17, 55, 10, 92)]
+        [DataRow("00:00:01", "00:00:55.314", 1, 60, 100, 92, 100, 92)]
         public void CalculateOEE_InputMetrics_ReturnAdvancedOEE(
             string breakDuration,
             string idealDuration,
