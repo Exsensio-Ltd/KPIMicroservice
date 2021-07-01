@@ -21,7 +21,18 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Integrational Test
-      working-directory: ./OEEMicroservice.IntegrationTests
-      run: dotnet test --no-build --verbosity normal
+    - name: Integrational Tests
+      run: dotnet test --no-build --verbosity normal OEEMicroservice.IntegrationTests/
+    - name: Unit Tests
+      run: dotnet test  -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal OEEMicroservice.UnitTests/
+    - name: Create Test Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+      id: create_coverage_badge
+      with:
+        label: Unit Test Coverage
+        color: brightgreen
+        path: OEEMicroservice.UnitTests/TestResults/coverage.opencover.xml
+        gist-filename: code-coverage.json
+        gist-id: 0e4641263d709a5c2bb6931e1f5094db
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
     
