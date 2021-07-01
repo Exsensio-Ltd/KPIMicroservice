@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31025.218
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEEMicroservice", "OEEMicroservice\OEEMicroservice.csproj", "{3B2A1F24-786B-4ADC-8290-5481AA1A5EDC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEEMicroservice.UnitTest", "OEEMicroservice.UnitTest\OEEMicroservice.UnitTest.csproj", "{A723CC08-6036-4F96-BF29-F98C00FDF90B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OEEMicroservice.UnitTests", "OEEMicroservice.UnitTests\OEEMicroservice.UnitTests.csproj", "{A723CC08-6036-4F96-BF29-F98C00FDF90B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OEEMicroservice.IntegrationTests", "OEEMicroservice.IntegrationTests\OEEMicroservice.IntegrationTests.csproj", "{B57E9A90-7DAB-4379-9EED-CDBE2E09F3E0}"
 EndProject
